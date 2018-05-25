@@ -8,17 +8,28 @@ import './Application.css';
 
 class Application extends Component {
   state = {
-    currentUser: null
+    currentUser: null,
+    restaurants: null
   }
+
+  restaurantsRef = database.ref('/restaurants');
 
   componentDidMount() {
     auth.onAuthStateChanged((currentUser) => {
       this.setState({currentUser});
+
+      this
+        .restaurantsRef
+        .on('value', (snapshot) => {
+          this.setState({
+            restaurants: snapshot.val()
+          });
+        });
     });
   }
 
   render() {
-    const {currentUser} = this.state;
+    const {currentUser, restaurants} = this.state;
     return (
       <div className="Application">
         <header className="Application--header">
@@ -28,6 +39,7 @@ class Application extends Component {
           {!currentUser && <SignIn/>}
           {currentUser && <div>
             <NewRestaurant/>
+            <Restaurants restaurants={restaurants}/>
             <CurrentUser user={currentUser}/>
           </div>
 }

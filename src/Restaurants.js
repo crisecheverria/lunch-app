@@ -5,19 +5,18 @@ import map from 'lodash/map';
 import './Restaurants.css';
 
 class Restaurants extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
+    const {restaurants} = this.props;
     return (
-      <section className="Restaurants"></section>
+      <section className="Restaurants">
+        {map(restaurants, (restaurant, key) => <Restaurant key={key} {...restaurant}/>)}
+      </section>
     );
   }
 }
 
 Restaurants.propTypes = {
-  user: PropTypes,
   restaurantsRef: PropTypes.object,
   restaurants: PropTypes.object
 };

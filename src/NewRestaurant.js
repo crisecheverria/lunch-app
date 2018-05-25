@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 import {object} from 'prop-types';
 import './NewRestaurant.css';
+import {database} from './firebase';
 
 class NewRestaurant extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: ''
-    };
+  state = {
+    name: ''
+  };
 
-    this.handleSubmit = this
-      .handleSubmit
-      .bind(this);
-  }
+  restaurantsRef = database.ref('/restaurants');
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
+    this
+      .restaurantsRef
+      .push({name: this.state.name});
   }
 
   render() {
